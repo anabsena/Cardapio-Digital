@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import Header from '../../Components/Header';
-import Menu from '../../Components/Menu';
 import CustomMenu from '../../Components/Menu';
 import CardapioLanchesView from './CardapioLanchesView';
 
