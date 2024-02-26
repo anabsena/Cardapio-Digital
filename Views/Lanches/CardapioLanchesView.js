@@ -64,7 +64,8 @@ export default function CardapioLanchesView() {
       <View style={styles.lanchesContainer}>
         {lanchesData.map((lanche, index) => (
           <View key={index} style={styles.lancheContainer}>
-            <View style={styles.descripition}>
+            
+            <View style={styles.lancheInfo}>
               <Text style={styles.lancheNome}>{lanche.nome}</Text>
               <Text style={styles.lancheDescricao}>{lanche.descricao}</Text>
               <View style={styles.controlsContainer}>
@@ -77,9 +78,7 @@ export default function CardapioLanchesView() {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.lancheImageContainer}>
-              <Image source={lanche.imagem} style={styles.lancheImagem} />
-            </View>
+            <Image source={lanche.imagem} style={styles.lancheImagem} />
           </View>
         ))}
       </View>
@@ -142,11 +141,9 @@ const styles = StyleSheet.create({
   lancheContainer: {
     backgroundColor: '#FFCEAB',
     width: '100%',
-    position: 'relative',
-    height: 120,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    borderRadius: 10,
     marginBottom: 20,
   },
   lanchesContainer: {
@@ -155,51 +152,57 @@ const styles = StyleSheet.create({
     padding: 20,
     gap: 12,
   },
-  lancheImageContainer: {
-    position: 'absolute',
-    right: 0,
-    height: '100%',
-  },
   lancheImagem: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
-    borderRadius: 10,
+    width: 200,
+    height: 200,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
   },
   lancheNome: {
-    fontSize: 18,
+    fontSize: 35,
     fontWeight: 'bold',
   },
   lancheDescricao: {
-    fontSize: 14,
+    fontSize: 25,
     backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    width: 400,
   },
   controlsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#B82227',
+    width: 200,
+    height: 50,
   },
   controlButton: {
     backgroundColor: '#8BC34A',
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 50,
+    height: 50,
+    borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 10,
   },
   controlButtonText: {
-    fontSize: 20,
+    fontSize: 50,
     color: 'white',
   },
   quantity: {
-    fontSize: 20,
-  },
-  card: {
-    flexDirection: 'row',
+    fontSize: 30,
+    backgroundColor: 'white',
+    width: 60,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
-    gap: 8,
+    paddingHorizontal: 10,
+},
+  lancheInfo: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8
   }
 });
-
