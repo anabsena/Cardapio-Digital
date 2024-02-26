@@ -1,11 +1,46 @@
-import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StatusBar, Modal, Button, View, Text, Image, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import ReviewTextInput from './Review/ReviewText';
 
 export default function Home() {
   const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [reviewText, setReviewText] = useState('');
+  const [savedReview, setSavedReview] = useState(null);
+
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleStarPress = (selectedRating) => {
+    setRating(selectedRating);
+  };
+
+  const handleSaveReview = () => {
+    // Salvar os dados do review em uma variável
+    const reviewData = {
+      rating: rating,
+      reviewText: reviewText,
+    };
+
+    // Definir os dados salvos
+    setSavedReview(reviewData);
+
+    // Limpar os estados do modal
+    setReviewText('');
+    setRating(0);
+
+    // Fechar o modal
+    closeModal();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.title}>
@@ -14,11 +49,11 @@ export default function Home() {
       <View style={styles.content}>
         <View style={styles.containerBody}>
           <Image source={require('../assets/logoTipo.jpg')} style={styles.logo} />
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
             <AntDesign name="menufold" size={30} color="white" />
-            <Text style={styles.buttonText} onPress={() => navigation.navigate('Cardapio')}>Cardápio</Text>
+            <Text style={styles.buttonText}>Cardápio</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={openModal}>
             <AntDesign name="star" size={30} color="white" />
             <Text style={styles.buttonText}>Avalie</Text>
           </TouchableOpacity>
@@ -36,7 +71,45 @@ export default function Home() {
         </View>
       </View>
       <StatusBar style="auto" />
-    </SafeAreaView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Avalie este item</Text>
+              <ReviewTextInput
+                placeholder="Digite seu comentário..."
+                value={reviewText}
+                onChangeText={(text) => setReviewText(text)}
+              />
+              <View style={styles.ratingContainer}>
+                {[1, 2, 3, 4, 5].map((index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleStarPress(index)}
+                    style={styles.star}
+                  >
+                    <AntDesign
+                      name={index <= rating ? 'star' : 'staro'}
+                      size={60}
+                      color={index <= rating ? '#FFD700' : '#ddd'}
+                    />
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              <TouchableOpacity style={styles.saveReviewBt} onPress={handleSaveReview}>
+                <Text style={styles.buttonText}>Salvar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </SafeAreaView >
   );
 }
 
@@ -77,7 +150,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     position: 'absolute',
   },
-  containerBody:{
+  containerBody: {
     position: 'relative',
     width: '50%',
     height: '100%',
@@ -129,5 +202,53 @@ const styles = StyleSheet.create({
     fontSize: 100,
     fontWeight: 'bold',
     marginTop: 10,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    width: 'auto',
+    height: 'auto',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 35,
+    gap: 30,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 48,
+    fontWeight: 'bold',
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
+  },
+  star: {
+    marginRight: 5,
+  },
+  saveReviewBt: {
+    backgroundColor: '#B82227',
+    padding: 10,
+    borderRadius: 5,
   },
 });
