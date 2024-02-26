@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "cardapio3",
+    "slug": "cardapio3",
+    "version": "1.0.0",
+    "orientation": "landscape",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.cardapio3",
+      "config": {
+        "supportsLandscape": true 
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "orientation": "landscape" 
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      
+        "orientation": "landscape" 
+     
+    }
+  }
+}
