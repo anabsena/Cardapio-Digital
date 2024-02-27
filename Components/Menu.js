@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -6,50 +6,44 @@ export default function CustomMenu() {
   const [selectedItem, setSelectedItem] = useState('Lanches');
   const navigation = useNavigation();
 
+  useEffect(() => {
+    // Forçar a renderização quando o selectedItem mudar para que o indicador seja mostrado imediatamente
+  }, [selectedItem]);
+
   const handleItemClick = (item) => {
     setSelectedItem(item);
-    // Adicionando a lógica para navegar para outras telas com base no item selecionado
-    if (item === 'Lanches') {
-      navigation.navigate('Cardapio');
-    } else if (item === 'Porções') {
-      navigation.navigate('CardapioPorcoes');
-    } else if (item === 'Combos') {
-      navigation.navigate('CardapioCombos');
-    } else if (item === 'Bebidas') {
-      navigation.navigate('CardapioBebidas');
+    // Navegação para outras telas com base no item selecionado
+    switch (item) {
+      case 'Lanches':
+        navigation.navigate('Cardapio');
+        break;
+      case 'Porções':
+        navigation.navigate('CardapioPorcoes');
+        break;
+      case 'Combos':
+        navigation.navigate('CardapioCombos');
+        break;
+      case 'Bebidas':
+        navigation.navigate('CardapioBebidas');
+        break;
+      default:
+        break;
     }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.menu}>
-        <TouchableOpacity
-          style={[styles.item, selectedItem === 'Lanches' && styles.selectedItem]}
-          onPress={() => handleItemClick('Lanches')}
-        >
-          <Text style={styles.itemText}>Lanches</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.item, selectedItem === 'Porções' && styles.selectedItem]}
-          onPress={() => handleItemClick('Porções')}
-        >
-          <Text style={styles.itemText}>Porções</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.item, selectedItem === 'Combos' && styles.selectedItem]}
-          onPress={() => handleItemClick('Combos')}
-        >
-          <Text style={styles.itemText}>Combos</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.item, selectedItem === 'Bebidas' && styles.selectedItem]}
-          onPress={() => handleItemClick('Bebidas')}
-        >
-          <Text style={styles.itemText}>Bebidas</Text>
-        </TouchableOpacity>
+        {['Lanches', 'Porções', 'Combos', 'Bebidas'].map((item) => (
+          <TouchableOpacity
+            key={item}
+            style={[styles.item, selectedItem === item && styles.selectedItem ]}
+            onPress={() => handleItemClick(item)}
+          >
+            <Text style={styles.itemText}>{item}</Text>
+            
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );
@@ -66,17 +60,19 @@ const styles = StyleSheet.create({
   menu: {
     width: '100%',
     height: '70%',
-    justifyContent:'space-evenly'
+    justifyContent: 'space-evenly'
   },
   item: {
     width: '100%',
     alignItems: 'center',
+    position: 'relative', // Para permitir o posicionamento absoluto do indicador
   },
   itemText: {
     color: '#fff',
-    fontSize:30,
+    fontSize: 30,
   },
   selectedItem: {
+    marginTop: 10, // Adicionando margem ao item selecionado
     textDecorationLine: 'underline',
   },
 });

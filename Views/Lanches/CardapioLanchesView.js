@@ -72,8 +72,11 @@ export default function CardapioLanchesView() {
   const handleDecrement = (id) => {
     if (quantidades[id] > 0) {
       setQuantidades({ ...quantidades, [id]: quantidades[id] - 1 });
+    } else {
+      setQuantidades({ ...quantidades, [id]: 0 });
     }
   };
+  
 
   return (
     <View style={styles.containerTotal}>

@@ -9,6 +9,7 @@ import ResumoPedidoHome from './Views/ResumoPedido/ResumoPedidoHome';
 import CardapioPorcoes from './Views/Porções/CardapioPorcoes';
 import CardapioCombos from './Views/Combos/CardapioCombos';
 import CardapioBebidas from './Views/Bebidas/CardapioBebidas';
+import Config from './Components/Config/'; 
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Cardapio" component={Cardapio} />
+        <Stack.Screen name="Config" component={Config} />
         <Stack.Screen name="ResumoPedido" component={ResumoPedido} />
         <Stack.Screen name="ResumoPedidoHome" component={ResumoPedidoHome} />
         <Stack.Screen name="CardapioPorcoes" component={CardapioPorcoes} />
