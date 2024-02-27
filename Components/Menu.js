@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function CustomMenu() {
   const [selectedItem, setSelectedItem] = useState('Lanches');
+  const navigation = useNavigation();
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
-    // Adicione aqui a lógica para navegar para outras telas com base no item selecionado
+    // Adicionando a lógica para navegar para outras telas com base no item selecionado
+    if (item === 'Lanches') {
+      navigation.navigate('Cardapio');
+    } else if (item === 'Porções') {
+      navigation.navigate('CardapioPorcoes');
+    } else if (item === 'Combos') {
+      navigation.navigate('CardapioCombos');
+    } else if (item === 'Bebidas') {
+      navigation.navigate('CardapioBebidas');
+    }
   };
 
   return (
