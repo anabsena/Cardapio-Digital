@@ -2,19 +2,52 @@ import React, { useState } from 'react';
 import { Image, Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function CardapioLanchesView() {
-  const adicionaisData = [
-    { nome: 'Bacon', preco: 2.50 },
-    { nome: 'Queijo', preco: 1.50 },
-    { nome: 'Ovo', preco: 1.00 },
-  ];
   const lanchesData = [
-    { id: 1, nome: 'X-Burger', descricao: 'Hamburguer, queijo, alface, tomate', imagem: require('../../assets/x-burger.jpg'), price: 24 },
-    { id: 2, nome: 'X-Salada', descricao: 'Hamburguer, queijo, alface, tomate', imagem: require('../../assets/x-salada.jpg'), price: 20 },
-    { id: 3, nome: 'X-Tudo', descricao: 'Hamburguer, queijo, alface, tomate, bacon, ovo', imagem: require('../../assets/x-tudo.jpg'), price: 30 },
+    { 
+      id: 1, 
+      nome: 'X-Burger', 
+      descricao: 'Hamburguer, queijo, alface, tomate', 
+      imagem: require('../../assets/x-burger.jpg'), 
+      price: 24, 
+      adicionais: [
+        { nome: 'Bacon', preco: 2.50 },
+        { nome: 'Queijo', preco: 1.50 },
+        { nome: 'Ovo', preco: 1.00 },
+      ]
+    },
+    { 
+      id: 2, 
+      nome: 'X-Salada', 
+      descricao: 'Hamburguer, queijo, alface, tomate', 
+      imagem: require('../../assets/x-salada.jpg'), 
+      price: 20,
+      adicionais: [
+        { nome: 'Bacon', preco: 2.50 },
+        { nome: 'Queijo', preco: 1.50 },
+        { nome: 'Ovo', preco: 1.00 },
+      ]
+    },
+    { 
+      id: 3, 
+      nome: 'X-Tudo', 
+      descricao: 'Hamburguer, queijo, alface, tomate, bacon, ovo', 
+      imagem: require('../../assets/x-tudo.jpg'), 
+      price: 30,
+      adicionais: [
+        { nome: 'Bacon', preco: 2.50 },
+        { nome: 'Queijo', preco: 1.50 },
+        { nome: 'Ovo', preco: 1.00 },
+      ]
+    },
   ];
 
+  const [selectedLancheId, setSelectedLancheId] = useState(null);
   const [quantidades, setQuantidades] = useState({});
   const [adicionaisPorLanche, setAdicionaisPorLanche] = useState({});
+
+  const handleSelecionarLanche = (id) => {
+    setSelectedLancheId(id);
+  };
 
   const handleSelecionarAdicional = (index, lancheId) => {
     const adicionaisCopy = { ...adicionaisPorLanche };
@@ -34,8 +67,6 @@ export default function CardapioLanchesView() {
 
   const handleIncrement = (id) => {
     setQuantidades({ ...quantidades, [id]: (quantidades[id] || 0) + 1 });
-    // Define os adicionais como vazio para o lanche selecionado
-    setAdicionaisPorLanche({ ...adicionaisPorLanche, [id]: [] });
   };
 
   const handleDecrement = (id) => {
@@ -50,21 +81,28 @@ export default function CardapioLanchesView() {
         <Image source={require('../../assets/logoTipo.jpg')} style={{ width: '100%', height: 70 }} />
         <View style={styles.container}>
           <Text style={styles.titulo}>Adicionais</Text>
-          {adicionaisData.map((item, index) => (
-            <View key={index} style={styles.adicionalContainer}>
-              <View>
-                <Text style={styles.adicionalNome}>{item.nome}</Text>
-                <Text style={styles.adicionalPreco}>R$ {item.preco.toFixed(2)}</Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => handleSelecionarAdicional(index, -1)} // LancheId -1 para representar todos os lanches
-                style={[
-                  styles.checkbox,
-                  { backgroundColor: adicionaisPorLanche[-1]?.includes(index) ? '#8BC34A' : '#E0E0E0' }
-                ]}
-              >
-                {adicionaisPorLanche[-1]?.includes(index) && <View style={styles.checkboxInner} />}
+          {lanchesData.map((lanche) => (
+            <View key={lanche.id}>
+              <TouchableOpacity onPress={() => handleSelecionarLanche(lanche.id)}>
+                <Text style={styles.lancheTitulo}>{lanche.nome}</Text>
               </TouchableOpacity>
+              {lanche.id === selectedLancheId && lanche.adicionais.map((item, index) => (
+                <View key={index} style={styles.adicionalContainer}>
+                  <View>
+                    <Text style={styles.adicionalNome}>{item.nome}</Text>
+                    <Text style={styles.adicionalPreco}>R$ {item.preco.toFixed(2)}</Text>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => handleSelecionarAdicional(index, lanche.id)}
+                    style={[
+                      styles.checkbox,
+                      { backgroundColor: adicionaisPorLanche[lanche.id]?.includes(index) ? '#8BC34A' : '#E0E0E0' }
+                    ]}
+                  >
+                    {adicionaisPorLanche[lanche.id]?.includes(index) && <View style={styles.checkboxInner} />}
+                  </TouchableOpacity>
+                </View>
+              ))}
             </View>
           ))}
         </View>
@@ -79,7 +117,7 @@ export default function CardapioLanchesView() {
                 <View style={styles.adicionaisSelecionadosContainer}>
                   <Text style={styles.adicionaisSelecionadosTitulo}>Adicionais:</Text>
                   {adicionaisPorLanche[lanche.id].map((index) => (
-                    <Text key={index} style={styles.adicionalSelecionado}>+{adicionaisData[index].nome}</Text>
+                    <Text key={index} style={styles.adicionalSelecionado}>+{lanche.adicionais[index].nome}</Text>
                   ))}
                 </View>
               )}
@@ -102,7 +140,6 @@ export default function CardapioLanchesView() {
           </View>
         ))}
       </View>
-      
     </View>
   );
 }
@@ -197,7 +234,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
-    gap: 12,	
+    gap: 12,  
   },
   controlButton: {
     backgroundColor: '#8BC34A',
@@ -256,4 +293,9 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 10,
   },
+  lancheTitulo: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  }
 });
