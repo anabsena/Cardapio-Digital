@@ -1,15 +1,16 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import Header from '../../Components/Header';
+import ResumoPedidoView from './ResumoPedidoView';
+import HeaderPedido from '../../Components/HeaderPedido';
 
 export default function ResumoPedido() {
   return (
     <View style={{ flex: 1 }}>
-        <Header/>
-        <View style={{  flexDirection: 'row', height: '100%'}}>    
-        <ResumoPedido/>
-        </View>
-       
+      <HeaderPedido />
+      <View style={{ flexDirection: 'row', height: '100%' }}>
+        <ResumoPedidoView />
+      </View>
+
     </View>
   );
 }
