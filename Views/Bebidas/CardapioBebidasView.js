@@ -13,10 +13,11 @@ export default function CardapioBebidasView() {
     const [quantidades, setQuantidades] = useState({});
 
     const handleDecrement = (id) => {
-        setQuantidades(prevQuantidades => ({
-            ...prevQuantidades,
-            [id]: (prevQuantidades[id] || 0) - 1
-        }));
+        setQuantidades(prevQuantidades => {
+            const currentQuantity = prevQuantidades[id] || 0;
+            const newQuantity = currentQuantity > 0 ? currentQuantity - 1 : 0;
+            return { ...prevQuantidades, [id]: newQuantity };
+        });
     };
 
     const handleIncrement = (id) => {
