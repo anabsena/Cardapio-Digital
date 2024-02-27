@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './Views/Home';
 import Cardapio from './Views/Lanches/CardapioLanches'; 
 import ResumoPedido from './Views/ResumoPedido/ResumoPedido';
+import ResumoPedidoHome from './Views/ResumoPedido/ResumoPedidoHome';
 import CardapioPorcoes from './Views/Porções/CardapioPorcoes';
 import CardapioCombos from './Views/Combos/CardapioCombos';
 import CardapioBebidas from './Views/Bebidas/CardapioBebidas';
@@ -18,6 +19,7 @@ export default function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Cardapio" component={Cardapio} />
         <Stack.Screen name="ResumoPedido" component={ResumoPedido} />
+        <Stack.Screen name="ResumoPedidoHome" component={ResumoPedidoHome} />
         <Stack.Screen name="CardapioPorcoes" component={CardapioPorcoes} />
         <Stack.Screen name="CardapioCombos" component={CardapioCombos} />
         <Stack.Screen name="CardapioBebidas" component={CardapioBebidas} />

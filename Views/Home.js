@@ -1,8 +1,29 @@
 import React, { useState } from 'react';
-import { StatusBar, Modal, Button, View, Text, Image, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { StatusBar, Modal, Button, View, Text, Image, 
+  TouchableOpacity, StyleSheet, SafeAreaView, AsyncStorage  } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import ReviewTextInput from './Review/ReviewText';
+
+const getPedidos = async () => {
+  try {
+      // Obter os pedidos armazenados
+      const pedidosArmazenados = await AsyncStorage.getItem('pedidos');
+      
+      // Se houver pedidos armazenados, converta-os de volta para um array
+      if (pedidosArmazenados !== null) {
+          const pedidosArray = JSON.parse(pedidosArmazenados);
+          console.log('Pedidos armazenados:', pedidosArray);
+      } else {
+          console.log('Não há pedidos armazenados ainda.');
+      }
+  } catch (error) {
+      console.error('Erro ao recuperar pedidos:', error);
+  }
+};
+
+// Chame a função para recuperar os pedidos
+
 
 export default function Home() {
   const navigation = useNavigation();
@@ -57,7 +78,7 @@ export default function Home() {
             <AntDesign name="star" size={30} color="white" />
             <Text style={styles.buttonText}>Avalie</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ResumoPedidoHome')}>
             <AntDesign name="shoppingcart" size={30} color="white" />
             <Text style={styles.buttonText}>Ver Pedido</Text>
           </TouchableOpacity>
@@ -72,7 +93,7 @@ export default function Home() {
       </View>
       <StatusBar style="auto" />
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={closeModal}
