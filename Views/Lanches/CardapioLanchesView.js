@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#EEEEEE',
+    backgroundColor: '#F3F3F1',
     padding: 10,
     borderRadius: 10,
     alignItems: 'center',
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4CAF50',
   },
   lancheContainer: {
-    backgroundColor: '#FFCEAB',
+    backgroundColor: '#FDEAE2',
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -210,13 +210,13 @@ const styles = StyleSheet.create({
   },
   lanchesContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     padding: 20,
     gap: 12,
   },
   lancheImagem: {
-    width: 240,
-    height: 240,
+    width: 280,
+    height: 280,
     borderRadius: 10,
   },
   lancheNome: {
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   },
   lancheDescricao: {
     fontSize: 25,
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     padding: 20,
     borderRadius: 10,
     width: 400,

@@ -29,6 +29,7 @@ export default function CardapioBebidasView() {
 
     return (
         <View style={styles.bebidasContainer}>
+        
             {bebidasData.map((bebida) => (
                 <View key={bebida.id} style={styles.bebidaContainer}>
                     <Text style={styles.bebidaNome}>{bebida.nome}</Text>

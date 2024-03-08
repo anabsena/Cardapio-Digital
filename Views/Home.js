@@ -65,7 +65,7 @@ export default function Home() {
       <View style={styles.title}>
         <Text style={styles.titleText}>Empresa</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Config')} style={styles.settingsButton}>
-          <AntDesign name="setting" size={24} color="white" />
+          <AntDesign name="setting" size={40} color="white" />
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
@@ -146,10 +146,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 30,
   },
   titleText: {
-    color: '#ffffff',
+    color: '#F3F3F1',
     fontSize: 20,
     fontWeight: 'bold',
     textTransform: 'uppercase',
@@ -237,7 +236,7 @@ const styles = StyleSheet.create({
     margin: 20,
     width: 'auto',
     height: 'auto',
-    backgroundColor: '#fff',
+    backgroundColor: '#F3F3F1',
     borderRadius: 20,
     padding: 35,
     gap: 30,
