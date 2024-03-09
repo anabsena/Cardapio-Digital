@@ -7,12 +7,12 @@ import CardapioLanchesView from './CardapioLanchesView';
 export default function CardapioLanches() {
   return (
     <View style={{ flex: 1 }}>
-        <Header/>
-        <View style={{  flexDirection: 'row', height: '100%'}}>
-<CustomMenu/>        
-      <CardapioLanchesView/>
-        </View>
-       
+      <Header />
+      <View style={{ flexDirection: 'row', height: '100%' }}>
+        <CustomMenu />
+        <CardapioLanchesView />
+      </View>
+
     </View>
   );
 }

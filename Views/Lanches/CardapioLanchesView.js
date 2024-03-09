@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { api } from '../../src/api/api';
 
 export default function CardapioLanchesView() {
   const lanchesData = [
-    { 
-      id: 1, 
-      nome: 'X-Burger', 
-      descricao: 'Hamburguer, queijo, alface, tomate', 
-      imagem: require('../../assets/x-burger.jpg'), 
-      price: 24, 
+    {
+      id: 1,
+      nome: 'X-Burger',
+      descricao: 'Hamburguer, queijo, alface, tomate',
+      imagem: require('../../assets/x-burger.jpg'),
+      price: 24,
       adicionais: [
         { nome: 'Bacon', preco: 2.50 },
         { nome: 'Queijo', preco: 1.50 },
         { nome: 'Ovo', preco: 1.00 },
       ]
     },
-    { 
-      id: 2, 
-      nome: 'X-Salada', 
-      descricao: 'Hamburguer, queijo, alface, tomate', 
-      imagem: require('../../assets/x-salada.jpg'), 
+    {
+      id: 2,
+      nome: 'X-Salada',
+      descricao: 'Hamburguer, queijo, alface, tomate',
+      imagem: require('../../assets/x-salada.jpg'),
       price: 20,
       adicionais: [
         { nome: 'Bacon', preco: 2.50 },
@@ -27,11 +28,11 @@ export default function CardapioLanchesView() {
         { nome: 'Ovo', preco: 1.00 },
       ]
     },
-    { 
-      id: 3, 
-      nome: 'X-Tudo', 
-      descricao: 'Hamburguer, queijo, alface, tomate, bacon, ovo', 
-      imagem: require('../../assets/x-tudo.jpg'), 
+    {
+      id: 3,
+      nome: 'X-Tudo',
+      descricao: 'Hamburguer, queijo, alface, tomate, bacon, ovo',
+      imagem: require('../../assets/x-tudo.jpg'),
       price: 30,
       adicionais: [
         { nome: 'Bacon', preco: 2.50 },
@@ -43,6 +44,7 @@ export default function CardapioLanchesView() {
 
   const [selectedLancheId, setSelectedLancheId] = useState(null);
   const [quantidades, setQuantidades] = useState({});
+  const [listProducts, setListProducts] = useState();
   const [adicionaisPorLanche, setAdicionaisPorLanche] = useState({});
 
   const handleSelecionarLanche = (id) => {
@@ -76,15 +78,40 @@ export default function CardapioLanchesView() {
       setQuantidades({ ...quantidades, [id]: 0 });
     }
   };
-  
+
+  const getProducts = async () => {
+    const service = (await api())
+    service.get('product/v1/product?perPage=10&page=1')
+      .then(res => {
+        if (res.data.data) {
+          setListProducts(res.data.data)
+          console.log(res.data.data)
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
+    getProducts()
+  }, [])
+
+  const test = () => {
+    listProducts.map((t) => {
+      console.log(t)
+      alert('Product', t.value)
+    })
+  }
+
 
   return (
     <View style={styles.containerTotal}>
       <View style={styles.screen}>
         <Image source={require('../../assets/logoTipo.jpg')} style={{ width: '100%', height: 70 }} />
+        <TouchableOpacity onPress={() => test()}><Text>TESTE</Text></TouchableOpacity>
         <View style={styles.container}>
           <Text style={styles.titulo}>Adicionais</Text>
-          {lanchesData.map((lanche) => (
+          {/*  {lanchesData.map((lanche) => (
             <View key={lanche.id}>
               <TouchableOpacity onPress={() => handleSelecionarLanche(lanche.id)}>
                 <Text style={styles.lancheTitulo}>{lanche.nome}</Text>
@@ -107,7 +134,7 @@ export default function CardapioLanchesView() {
                 </View>
               ))}
             </View>
-          ))}
+          ))} */}
         </View>
       </View>
       <View style={styles.lanchesContainer}>
@@ -237,14 +264,14 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
-    gap: 12,  
+    gap: 12,
   },
   controlButton: {
     backgroundColor: '#8BC34A',
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    paddingBottom: 10, 
+    paddingBottom: 10,
     height: 50,
     width: 50,
     borderRadius: 5,

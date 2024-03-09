@@ -3,6 +3,7 @@ import { StatusBar, Modal, View, Text, Image, TouchableOpacity, StyleSheet, Safe
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import ReviewTextInput from './Review/ReviewText';
+import { api } from '../src/api/api';
 
 const getPedidos = async () => {
   try {
@@ -60,6 +61,8 @@ export default function Home() {
     closeModal();
   };
 
+ 
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.title}>
@@ -67,6 +70,7 @@ export default function Home() {
         <TouchableOpacity onPress={() => navigation.navigate('Config')} style={styles.settingsButton}>
           <AntDesign name="setting" size={40} color="white" />
         </TouchableOpacity>
+      
       </View>
       <View style={styles.content}>
         <View style={styles.containerBody}>
@@ -75,6 +79,9 @@ export default function Home() {
             <AntDesign name="menufold" size={30} color="white" />
             <Text style={styles.buttonText}>Cardápio</Text>
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => getProducts()} style={styles.button}>
+          <Text>TESTE</Text>
+        </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={openModal}>
             <AntDesign name="star" size={30} color="white" />
             <Text style={styles.buttonText}>Avalie</Text>
