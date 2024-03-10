@@ -12,16 +12,20 @@ export default function HeaderPedido() {
 
 const styles = StyleSheet.create({
     title: {
+        flexDirection: 'row',
         backgroundColor: '#B82227',
         paddingVertical: 10,
         alignItems: 'center',
-       
-        position: 'relative'
+        justifyContent: 'flex-start',
+        position: 'relative',
+        height: '8%',
     },
     titleText: {
         color: '#ffffff',
         fontWeight: 'bold',
         textTransform: 'uppercase',
-        fontSize: 30,
+        fontSize: 35,
+        marginLeft: '40%',
+        textAlign: 'center',
     }
 });

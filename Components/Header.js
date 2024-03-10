@@ -7,10 +7,10 @@ export default function Header() {
 
   return (
     <View style={styles.title}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 10 }}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 30 }}>
         <Feather
           name="arrow-left"
-          size={30} // Aumente o tamanho conforme necessário
+          size={50} 
           color="white"
         />
       </TouchableOpacity>
@@ -31,14 +31,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#B82227',
     paddingVertical: 10,
     alignItems: 'center',
+    justifyContent: 'flex-start',
     position: 'relative',
-   
+    height: '8%',
   },
   titleText: {
     color: '#ffffff',
     fontWeight: 'bold',
     textTransform: 'uppercase',
     fontSize: 35,
+    marginLeft: '40%',
     textAlign: 'center',
   },
   botao: {
@@ -50,6 +52,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontWeight: 'bold',
     textTransform: 'uppercase',
+    marginTop: 10,
     fontSize: 20,
   }
 });
