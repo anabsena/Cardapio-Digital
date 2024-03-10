@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
+
 export default function Config() {
   const [modalVisible, setModalVisible] = useState(false);
   const [tableNumber, setTableNumber] = useState('');
@@ -20,7 +21,9 @@ export default function Config() {
   };
 
   return (
+    
     <View style={styles.container}>
+      
       <View style={styles.title}>
 
         <Text style={styles.titleText}>Configurações</Text>

@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar, Modal, View, Text, Image, TouchableOpacity, StyleSheet, SafeAreaView, AsyncStorage } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import ReviewTextInput from './Review/ReviewText';
 import { api } from '../src/api/api';
 
+const BUTTON_COLOR = '#B82227';
+const STAR_SIZE = 60;
+const STAR_COLOR_FILLED = '#FFD700';
+const STAR_COLOR_EMPTY = '#ddd';
+const TEXT_COLOR = '#fff';
+
+const RatingStar = ({ index, rating, onPress }) => (
+  <TouchableOpacity key={index} onPress={() => onPress(index)} style={styles.star}>
+    <AntDesign
+      name={index <= rating ? 'star' : 'staro'}
+      size={STAR_SIZE}
+      color={index <= rating ? STAR_COLOR_FILLED : STAR_COLOR_EMPTY}
+    />
+  </TouchableOpacity>
+);
+
 const getPedidos = async () => {
   try {
-    // Obter os pedidos armazenados
     const pedidosArmazenados = await AsyncStorage.getItem('pedidos');
-
-    // Se houver pedidos armazenados, converta-os de volta para um array
     if (pedidosArmazenados !== null) {
       const pedidosArray = JSON.parse(pedidosArmazenados);
       console.log('Pedidos armazenados:', pedidosArray);
@@ -22,8 +35,6 @@ const getPedidos = async () => {
   }
 };
 
-// Chame a função para recuperar os pedidos
-
 export default function Home() {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,33 +42,19 @@ export default function Home() {
   const [reviewText, setReviewText] = useState('');
   const [savedReview, setSavedReview] = useState(null);
 
-  const openModal = () => {
-    setModalVisible(true);
-  };
+  useEffect(() => {
+    getPedidos();
+  }, []);
 
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-
-  const handleStarPress = (selectedRating) => {
-    setRating(selectedRating);
-  };
+  const openModal = () => setModalVisible(true);
+  const closeModal = () => setModalVisible(false);
+  const handleStarPress = (selectedRating) => setRating(selectedRating);
 
   const handleSaveReview = () => {
-    // Salvar os dados do review em uma variável
-    const reviewData = {
-      rating: rating,
-      reviewText: reviewText,
-    };
-
-    // Definir os dados salvos
+    const reviewData = { rating, reviewText };
     setSavedReview(reviewData);
-
-    // Limpar os estados do modal
     setReviewText('');
     setRating(0);
-
-    // Fechar o modal
     closeModal();
   };
 
@@ -117,20 +114,9 @@ export default function Home() {
               />
               <View style={styles.ratingContainer}>
                 {[1, 2, 3, 4, 5].map((index) => (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => handleStarPress(index)}
-                    style={styles.star}
-                  >
-                    <AntDesign
-                      name={index <= rating ? 'star' : 'staro'}
-                      size={60}
-                      color={index <= rating ? '#FFD700' : '#ddd'}
-                    />
-                  </TouchableOpacity>
+                  <RatingStar key={index} index={index} rating={rating} onPress={handleStarPress} />
                 ))}
               </View>
-
               <TouchableOpacity style={styles.saveReviewBt} onPress={handleSaveReview}>
                 <Text style={styles.buttonText}>Salvar</Text>
               </TouchableOpacity>
@@ -148,18 +134,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#680101',
   },
   title: {
-    backgroundColor: '#B82227',
+    backgroundColor: BUTTON_COLOR,
     paddingVertical: 10,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   titleText: {
-    color: '#F3F3F1',
-    fontSize: 20,
+    color: TEXT_COLOR,
     fontWeight: 'bold',
     textTransform: 'uppercase',
-    fontSize: 30,
+    fontSize: 35,
+    marginBottom: 30,
+    height: '8%',
+    alignItems: 'center',
   },
   content: {
     flexDirection: 'row',
@@ -170,7 +158,7 @@ const styles = StyleSheet.create({
   logo: {
     width: '100%',
     height: 150,
-    resizeMode: 'cover',
+    resizeMode: 'vertical',
     position: 'absolute',
     top: 1
   },
@@ -190,7 +178,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
-    backgroundColor: '#B82227',
+    backgroundColor: BUTTON_COLOR,
     padding: 10,
     marginVertical: 5,
     borderRadius: 5,
@@ -203,7 +191,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     marginLeft: 10,
-    fontSize: 30
+    fontSize: 35
   },
   containerTable: {
     backgroundColor: 'white',
@@ -277,7 +265,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   saveReviewBt: {
-    backgroundColor: '#B82227',
+    backgroundColor: BUTTON_COLOR,
     padding: 10,
     borderRadius: 5,
   },
