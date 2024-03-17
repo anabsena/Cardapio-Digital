@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-
 
 export default function Config() {
   const [modalVisible, setModalVisible] = useState(false);
   const [tableNumber, setTableNumber] = useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoginVisible, setIsLoginVisible] = useState(false); 
 
-  const openModal = () => {
-    setModalVisible(true);
+  const openLoginModal = () => {
+    setIsLoginVisible(true); 
+  };
+
+  const closeLoginModal = () => {
+    setIsLoginVisible(false); 
+    setLogin(''); 
+    setPassword(''); 
+  };
+
+  const openConfigModal = () => {
+    setModalVisible(true); 
   };
 
   const closeModal = () => {
@@ -20,14 +32,19 @@ export default function Config() {
     closeModal();
   };
 
-  return (
-    
-    <View style={styles.container}>
-      
-      <View style={styles.title}>
+  const handleLogin = () => {
+    if (login === 'adm' && password === 'teste123') {
+      openConfigModal(); 
+    } else {
+      Alert.alert('Erro', 'Login ou senha incorretos.');
+    }
+  };
 
+  return (
+    <View style={styles.container}>
+      <View style={styles.title}>
         <Text style={styles.titleText}>Configurações</Text>
-        <TouchableOpacity onPress={openModal} style={styles.settingsButton}>
+        <TouchableOpacity onPress={openLoginModal} style={styles.settingsButton}>
           <Feather name="settings" size={40} color="white" />
         </TouchableOpacity>
       </View>
@@ -54,6 +71,37 @@ export default function Config() {
               </TouchableOpacity>
               <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
                 <Text style={styles.buttonText}>Fechar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isLoginVisible}
+        onRequestClose={closeLoginModal}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Login</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Login"
+                value={login}
+                onChangeText={setLogin}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Senha"
+                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
+              />
+              <TouchableOpacity style={styles.saveButton} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Login</Text>
               </TouchableOpacity>
             </View>
           </View>
